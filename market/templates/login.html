@@ -4,31 +4,21 @@
 {% endblock %}
 
 {% block content %}
-<body class="text-center">
-    <div class="container">
-        <form method="POST" class="form-signin" style="color:white">
-            {{ form.hidden_tag() }}
-            <h1 class="h3 mb-3 font-weight-normal">
-                Please Login
-            </h1>
-            <br>
-            {{ form.username.label() }}
-            {{ form.username(class="form-control", placeholder="User Name") }}
-
-            {{ form.password.label() }}
-            {{ form.password(class="form-control", placeholder="Password") }}
-
-            <br>
-
-
-            <div class="checkbox mb-3">
-               <h6>Do not have an account?</h6>
-               <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">Register</a>
-            </div>
-
-            {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
-
-        </form>
-    </div>
-</body>
+<div class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+    <form method="POST" class="form-signin" style="color:white; background-color: #343a40; padding: 2rem; border-radius: 0.5rem; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1); max-width: 400px; width: 100%;">
+        {{ form.hidden_tag() }}
+        <h1 class="h3 mb-3 font-weight-normal text-center">Please Login</h1>
+        {{ form.username.label(class="sr-only") }}
+        {{ form.username(class="form-control", placeholder="User Name") }}
+        {{ form.password.label(class="sr-only") }}
+        {{ form.password(class="form-control", placeholder="Password") }}
+        <br>
+        <div class="text-center">
+            <h6 class="text-white-50">Do not have an account?</h6>
+            <a class="btn btn-sm btn-secondary" href="{{ url_for('register_page') }}">Register</a>
+        </div>
+        <br>
+        {{ form.submit(class="btn btn-lg btn-primary btn-block") }}
+    </form>
+</div>
 {% endblock %}
