@@ -4,7 +4,7 @@ An advanced **e-commerce website** built using modern technologies to provide a 
 
 ## 🛠️ Technologies Used
 
-- **Backend**: Python Flask, Ninja
+- **Backend**: Python Flask, Jinja
 - **Frontend**: HTML, CSS, Bootstrap  
 
 ## 🚀 Features
