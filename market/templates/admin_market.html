@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block title %}
+Market Page
+{% endblock %}
+{% block content %}
+
+<div class="row" style="margin-top:20px; margin-left:20px">
+   <div class="col-8">
+       <h2>Add items for admins</h2>
+       <a class="btn btn-primary mb-3" href="{{ url_for('admin_page') }}">Add Items</a>
+
+       <table class="table table-hover table-dark">
+         <thead>
+            <tr>
+               <th scope="col">ID</th>
+               <th scope="col">Name</th>
+               <th scope="col">Barcode</th>
+               <th scope="col">Price</th>
+               <th scope="col">Options</th>
+            </tr>
+         </thead>
+         <tbody>
+            {% for item in items %}
+            {% include 'includes/items_modals.html' %}
+            <tr>
+               <td>{{ item.id }}</td>
+               <td>{{ item.name }}</td>
+               <td>{{ item.barcode }}</td>
+               <td>{{ item.price }}$</td>
+               <td>
+                   <div class="btn-group btn-group-sm" role="group">
+                       <button class="btn btn-outline-info" data-toggle="modal" data-target="#Modal-MoreInfo-{{ item.id }}">
+                           More Info
+                       </button>
+                       <button class="btn btn-outline-success" data-toggle="modal" data-target="#Modal-PurchaseConfirm-{{ item.id }}">
+                           Purchase
+                       </button>
+                       <form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST" style="display:inline;">
+                           <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this item?');">
+                               Delete
+                           </button>
+                       </form>
+                   </div>
+               </td>
+            </tr>
+            {% endfor %}
+         </tbody>
+      </table>
+   </div>
+   <div class="col-4">
+        <h2>Owned Items</h2>
+        <p>Click on sell item to put an item back on the Market</p>
+        <br>
+        <div class="row">
+           {% for owned_item in owned_items %}
+           {% include 'includes/owned_items_modals.html' %}
+             <div class="col-md-6">
+                 <div class="card text-center bg-dark mb-3">
+                      <div class="card-body">
+                          <h5 class="card-title">{{ owned_item.name }}</h5>
+                          <button type="button" class="btn btn-outline-danger mb-2"
+                                  data-toggle="modal" data-target="#Modal-SellingConfirm-{{ owned_item.id }}">
+                              Sell this Item
+                          </button>
+                          <p class="card-text"><strong>
+                              This item costs {{ owned_item.price }}$
+                          </strong></p>
+                      </div>
+                  </div>
+             </div>
+           {% endfor %}
+        </div>
+   </div>
+</div>
+{% endblock %}
