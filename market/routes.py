@@ -74,6 +74,20 @@ def market_page():
         owned_items = Item.query.filter_by(owner=current_user.id)
         return render_template('market.html', items=items, purchase_form=purchase_form, owned_items=owned_items, selling_form=selling_form)
 
+
+@app.route('/delete_item/<int:item_id>', methods=['POST'])
+@login_required
+def delete_item(item_id):
+    if not current_user.is_admin: 
+        flash("You do not have permission to delete items.", category='danger')
+        return redirect(url_for('market_page'))
+
+    item_to_delete = Item.query.get_or_404(item_id)
+    db.session.delete(item_to_delete)
+    db.session.commit()
+    flash(f"Item {item_to_delete.name} has been deleted successfully!", category='success')
+    return redirect(url_for('market_page')) 
+
 @app.route('/register', methods=['GET', 'POST'])
 def register_page():
     form = RegisterForm()
