@@ -4,11 +4,42 @@ from market.models import Item, User
 from market.forms import RegisterForm, LoginForm, PurchaseItemForm, SellItemForm
 from market import db
 from flask_login import login_user, logout_user, login_required, current_user
+from market.models import Item, User
 
 @app.route('/')
 @app.route('/home')
 def home_page():
     return render_template('home.html')
+
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
+def admin_page():
+    if not current_user.is_admin:  
+        flash("You do not have permission to access the admin dashboard.", category='danger')
+        return redirect(url_for(''))  
+
+    if request.method == 'POST':
+        item_id = request.form.get('id')
+        name = request.form.get('name')
+        barcode = request.form.get('barcode')
+        price = request.form.get('price')
+
+        if name and barcode and price:
+            try:
+                if item_id:
+                    new_item = Item(id=item_id, name=name, barcode=barcode, price=int(price))
+                else:
+                    new_item = Item(name=name, barcode=barcode, price=int(price))
+
+                db.session.add(new_item)
+                db.session.commit()
+                flash(f"Item '{name}' has been added successfully!", category='success')
+            except Exception as e:
+                flash("An error occurred while adding the item.", category='danger')
+        else:
+            flash("Please fill in all fields.", category='danger')
+
+    return render_template('admin.html') 
 
 @app.route('/market', methods=['GET', 'POST'])
 @login_required
