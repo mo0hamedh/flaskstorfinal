@@ -16,7 +16,7 @@ def home_page():
 def admin_page():
     if not current_user.is_admin:  
         flash("You do not have permission to access the admin dashboard.", category='danger')
-        return redirect(url_for(''))  
+        return render_template('not_admin.html')
 
     if request.method == 'POST':
         item_id = request.form.get('id')

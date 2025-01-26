@@ -13,6 +13,8 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(length=60), nullable=False)
     budget = db.Column(db.Integer(), nullable=False, default=2000)
     items = db.relationship('Item', backref='owned_user', lazy=True)
+    is_admin = db.Column(db.Integer(), nullable=False, default=0)  
+
 
     @property
     def prettier_budget(self):
